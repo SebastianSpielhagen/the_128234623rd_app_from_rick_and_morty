@@ -1,12 +1,25 @@
-import {Component} from "react";
+import { Component } from "react";
 
-class CharacterList extends Component<{ characters: unknown }> {
+interface Character {
+    id: number;
+    name: string;
+    status: string;
+    species: string;
+    gender: string;
+    // Weitere Eigenschaften hinzufügen
+}
+
+interface CharacterListProps {
+    characters: Character[];
+}
+
+class CharacterList extends Component<CharacterListProps> {
     render() {
-        const {characters: characters} = this.props;
-        return <>
+        const { characters } = this.props;
+        return (
             <div>
-                {characters.map((character) =>
-                    (
+                {characters.map((character) => {
+                    return (
                         <div key={character.id}>
                             <h3>Name: {character.name}</h3>
                             <p>Death or Alive: {character.status}</p>
@@ -14,9 +27,10 @@ class CharacterList extends Component<{ characters: unknown }> {
                             <p>Gender: {character.gender}</p>
                             {/* Weitere Details anzeigen */}
                         </div>
-                    ))}
+                    );
+                })}
             </div>
-        </>;
+        );
     }
 }
 

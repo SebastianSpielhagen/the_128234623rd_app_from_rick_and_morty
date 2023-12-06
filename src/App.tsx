@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction} from 'react';
 import CharacterList from './CharacterList';
 
 function App() {
@@ -12,12 +12,15 @@ function App() {
             .catch(error => console.log(error));
     }, []);
 
-    const handleSearch = event => {
+    const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredCharacters = characters.filter(character =>
-        character.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredCharacters = characters.filter(character => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+        return character["name"].toLowerCase().includes(searchTerm.toLowerCase());
+        }
     );
 
     return (

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import CharacterList from './CharacterList';
 
 function App() {
     const [characters, setCharacters] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         fetch('https://rickandmortyapi.com/api/character/')
@@ -11,9 +12,23 @@ function App() {
             .catch(error => console.log(error));
     }, []);
 
+    const handleSearch = event => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredCharacters = characters.filter(character =>
+        character.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div>
-            <CharacterList characters={characters} />
+            <input
+                type="text"
+                placeholder="Search characters..."
+                value={searchTerm}
+                onChange={handleSearch}
+            />
+            <CharacterList characters={filteredCharacters} />
         </div>
     );
 }
